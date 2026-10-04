@@ -1,0 +1,100 @@
+buildscript {
+    repositories {
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+    }
+}
+
+repositories {
+    mavenLocal()
+    flatDir {
+        dirs 'libs'
+    }
+    maven {
+        name = "forge-old"
+        url = "http://files.minecraftforge.net/maven"
+    }
+    maven {
+        name = "forge"
+        url = "https://maven.minecraftforge.net/"
+    }
+    maven {
+        name = "sonatype"
+        url = "https://oss.sonatype.org/content/repositories/snapshots/"
+    }
+    maven {
+        name = "maven-central"
+        url = "https://repo1.maven.org/maven2/"
+    }
+    maven {
+        name = "aliyun-public"
+        url = "https://maven.aliyun.com/repository/public"
+    }
+    maven {
+        name = "cursemaven"
+        url = "https://cursemaven.com"
+    }
+}
+
+
+apply plugin: 'net.minecraftforge.gradle.forge'
+//Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
+
+
+version = "1.0"
+group = "com.yourname.modid"
+archivesBaseName = "modid"
+
+sourceCompatibility = targetCompatibility = '1.8'
+compileJava {
+    sourceCompatibility = targetCompatibility = '1.8'
+}
+
+minecraft {
+    version = "1.12.2-14.23.5.2847"
+    runDir = "run"
+
+    mappings = "snapshot_20171003"
+    // makeObfSourceJar = false
+}
+
+dependencies {
+    compile files("libs/jei_1.12.2-4.16.5.1030.jar")
+    compile files("libs/industrialcraft-2-2.8.195-ex112-dev.jar")
+    compile files("libs/SlashBlade-mc1.12-r32-deobf.jar")
+    compile files("libs/Baubles-1.12-1.5.2.jar")
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+project.afterEvaluate {
+    tasks.matching { it.name == 'getAssets' }.all { it.enabled = false }
+}
+jar {
+    archiveName = "MoreElectricTools.v1.662 (modified).jar"
+}
