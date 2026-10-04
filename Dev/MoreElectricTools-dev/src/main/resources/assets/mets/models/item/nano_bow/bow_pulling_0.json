@@ -1,6 +1,0 @@
-{
-    "parent": "item/bow",
-    "textures": {
-        "layer0": "mets:items/nano_bow/bow_pulling_0"
-    }
-}
